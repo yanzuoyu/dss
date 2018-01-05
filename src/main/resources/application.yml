@@ -1,0 +1,31 @@
+server:
+  port: 9340
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.1.207:9001/eureka/
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://192.168.1.207:9002/uaa/user
+security.ignored: /dss/oss/callback ,/dss/refresh
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.1.9/dss?useUnicode=true&characterEncoding=utf-8
+    username: eam
+    password: enerbos,123
+    driver-class-name: com.mysql.jdbc.Driver
+    maxActive: 50
+    initialSize: 5
+    validationQuery: SELECT 1
+    testOnBorrow: true
+    testOnReturn: true
+    testWhileIdle: true
+  jpa:
+    hibernate.ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+mybatis:
+    mapper-locations: classpath:/com/enerbos/cloud/dss/service/repository/dao/mapper/*.xml
+    logImpl: COMMONS_LOGGING

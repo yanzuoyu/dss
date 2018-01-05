@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.enerbos.cloud.dss.service.repository.dao.FileinfoDao" >
+  <resultMap id="BaseResultMap" type="com.enerbos.cloud.dss.service.domain.Fileinfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="file_description" property="fileDescription" jdbcType="VARCHAR" />
+    <result column="file_size" property="fileSize" jdbcType="BIGINT" />
+    <result column="quote_id" property="quoteId" jdbcType="VARCHAR" />
+    <result column="quote_type" property="quoteType" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+    <result column="site_id" property="siteId" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="originalid" property="originalid" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, file_name,file_description , file_size, quote_id, quote_type, org_id, site_id, path ,create_user,create_date
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="string" >
+    select 
+    <include refid="Base_Column_List" />
+    from dss_fileinfo
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="findPage" resultMap="BaseResultMap" parameterType="string" >
+    select
+    <include refid="Base_Column_List" />
+    from dss_fileinfo
+  </select>
+
+
+  <delete id="deleteById" parameterType="string" >
+    delete from dss_fileinfo
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByQuoteIdAndQuoteType" parameterType="string" >
+    delete from dss_fileinfo
+    where quote_id = #{quoteId,jdbcType=VARCHAR} and quote_type = #{quoteType}
+  </delete>
+
+  <insert id="insert" parameterType="com.enerbos.cloud.dss.service.domain.Fileinfo"  keyProperty="id">
+    <selectKey keyProperty="id" resultType="java.lang.String"
+               order="BEFORE">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into dss_fileinfo (id, file_name,file_description, file_size, quote_id, quote_type, org_id, site_id, path,create_user,create_date
+      )
+    values (#{id}, #{fileName,jdbcType=VARCHAR}, #{fileDescription,jdbcType=VARCHAR},#{fileSize,jdbcType=BIGINT},
+      #{quoteId,jdbcType=VARCHAR}, #{quoteType,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR},
+      #{siteId,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <select id="findByQuoteTypeAndQuoteId" parameterType = "string" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from dss_fileinfo fileinfo
+    where fileinfo.quote_type  = #{quoteType}  and fileinfo.quote_id = #{quoteId}
+    order by create_date desc
+  </select>
+
+  <update id="updateQuoteId" parameterType="string">
+    update dss_fileinfo
+    set quote_id = #{quoteId}
+    where id = #{id}
+  </update>
+</mapper>

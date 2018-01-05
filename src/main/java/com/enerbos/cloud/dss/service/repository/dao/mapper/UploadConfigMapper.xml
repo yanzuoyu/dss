@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.enerbos.cloud.dss.service.repository.dao.UploadConfigDao" >
+
+    <select id="uploadConfig" resultType="java.util.Map" >
+        select name ,content from dss_upload_config
+    </select>
+
+    <select id="findUploadConfigs" resultType="com.enerbos.cloud.dss.service.domain.UploadConfig">
+        select id , name ,type , content ,description  from dss_upload_config
+    </select>
+
+    <insert id="insertUploadConfig"  parameterType="com.enerbos.cloud.dss.service.domain.UploadConfig" >
+        <selectKey keyProperty="id" resultType="java.lang.String"
+                   order="BEFORE">
+            select replace(uuid(),'-','') from dual
+        </selectKey>
+        insert into dss_upload_config (id , name ,type ,content ,description,create_user)
+        VALUES (#{id},#{name},#{type},#{content},#{description},#{createUser})
+
+    </insert>
+
+
+    <update id="updateUploadConfig"  parameterType="com.enerbos.cloud.dss.service.domain.UploadConfig">
+        update dss_upload_config
+        set  content = #{content} , description = #{description}
+        where  id  = #{id}
+    </update>
+
+    <delete id="deleteUploadConfig" parameterType="string">
+        delete  from  dss_upload_config
+        where id =  #{id}
+    </delete>
+</mapper>

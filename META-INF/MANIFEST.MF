@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: enerbos-cloud-upload-service
+Bundle-SymbolicName: enerbos-cloud-upload-service
+Bundle-Version: 1.0.0.qualifier
+Export-Package: com,
+ com.enerbos,
+ com.enerbos.cloud,
+ com.enerbos.cloud.dss.controller,com.enerbos.cloud.dss.util.oss

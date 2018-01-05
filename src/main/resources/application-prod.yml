@@ -1,0 +1,6 @@
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://enerbos-cloud-discovery-service:9001/eureka/
+
